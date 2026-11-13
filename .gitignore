@@ -1,7 +1,9 @@
-Cole dentro:
-```
 build/
 *.o
 *.out
 saves/
 .vscode/
+
+# saída do Emscripten (gerada no GitHub Actions)
+web/qc.js
+web/qc.wasm
