@@ -18,6 +18,19 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET) web/qc.js web/qc.wasm
 
-.PHONY: all run clean
+# Versão web: compila a lógica original (jogo.c + arquivo.c) para WebAssembly.
+# Requer o Emscripten (emcc). A interface fica em web/ (HTML, CSS e JS).
+EMCC      = emcc
+WEB_SRC   = src/jogo.c src/arquivo.c web/api.c
+WEB_FLAGS = -O2 -sMODULARIZE -sEXPORT_NAME=createQC -sENVIRONMENT=web \
+            -sEXPORTED_RUNTIME_METHODS=cwrap,FS -sFORCE_FILESYSTEM
+
+web: web/qc.js
+
+web/qc.js: $(WEB_SRC)
+	$(EMCC) $(WEB_FLAGS) $(WEB_SRC) -o web/qc.js
+	@echo "✅ Versão web: abra web/index.html por um servidor local"
+
+.PHONY: all run clean web

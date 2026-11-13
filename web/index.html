@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quebra-Cabeças em C</title>
+  <meta name="description" content="Quebra-cabeça deslizante escrito em C e compilado para WebAssembly.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="voltar-hub" href="https://brendagnasc.github.io/jogos/">← Todos os jogos</a>
+
+  <!-- tela de menu -->
+  <main id="telaMenu" class="tela">
+    <h1 class="titulo">🧩 Quebra-Cabeças</h1>
+    <p class="subtitulo">Deslize as peças e complete o puzzle!</p>
+    <hr class="separador">
+    <button class="btn-menu" data-acao="novo" disabled>▶&nbsp;&nbsp;Novo Jogo</button>
+    <button class="btn-menu" data-acao="carregar" disabled>📂&nbsp;&nbsp;Carregar Jogo</button>
+    <p id="carregando" class="subtitulo">Carregando WebAssembly...</p>
+    <p class="rodape">Lógica do jogo em C, compilada para WebAssembly com Emscripten.</p>
+  </main>
+
+  <!-- tela de jogo -->
+  <main id="telaJogo" class="tela" hidden>
+    <div class="barra-topo">
+      <button class="btn-acao" data-acao="menu">← Menu</button>
+      <button class="btn-acao" data-acao="novo">▶ Novo</button>
+      <button class="btn-acao" data-acao="salvar">💾 Salvar</button>
+      <button class="btn-acao" data-acao="carregar">📂 Carregar</button>
+      <span class="espacador"></span>
+      <span id="lblJogadas" class="lbl-jogadas">Jogadas: 0</span>
+    </div>
+    <hr class="separador">
+    <div id="tabuleiro" class="tabuleiro" role="grid" aria-label="Tabuleiro"></div>
+    <div class="barra-status"><span id="lblStatus" class="lbl-status" aria-live="polite"></span></div>
+  </main>
+
+  <!-- diálogo de novo jogo -->
+  <dialog id="dlgNovo">
+    <form method="dialog">
+      <h2>Novo Jogo</h2>
+      <label>Tamanho do tabuleiro (3–10):
+        <input id="inpTamanho" type="number" min="3" max="10" value="4" required>
+      </label>
+      <label>Dificuldade:
+        <select id="selDificuldade">
+          <option value="F">🟢 Fácil</option>
+          <option value="M" selected>🔵 Médio</option>
+          <option value="D">🔴 Difícil</option>
+        </select>
+      </label>
+      <div class="botoes-dialogo">
+        <button class="btn-acao" value="cancelar" formnovalidate>Cancelar</button>
+        <button class="btn-acao destaque" value="ok">Iniciar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- diálogo de vitória -->
+  <dialog id="dlgVitoria">
+    <form method="dialog">
+      <h2 class="vitoria">🎉 Parabéns!</h2>
+      <p>Você completou o quebra-cabeças!</p>
+      <p id="lblVitoria"></p>
+      <div class="botoes-dialogo">
+        <button class="btn-acao destaque" value="ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input id="inpArquivo" type="file" accept=".qcb,.txt" hidden>
+
+  <script src="qc.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
